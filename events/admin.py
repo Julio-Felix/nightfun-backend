@@ -1,3 +1,6 @@
 from django.contrib import admin
 
-# Register your models here.
+from events.models import Events, Banner
+
+admin.site.register(Events)
+admin.site.register(Banner)
