@@ -28,7 +28,12 @@ DEBUG = True
 ALLOWED_HOSTS=['*']
 CORS_ORIGIN_ALLOW_ALL = True
 AUTH_USER_MODEL = 'user.UserProfile'
-
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ]
+}
 # Application definition
 LOCAL_APPS = [
     'user.apps.UserConfig',
@@ -43,7 +48,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'corsheaders',
-    'rest_framework'
+    'rest_framework',
+    'rest_framework.authtoken',
 ] + LOCAL_APPS
 
 MIDDLEWARE = [
