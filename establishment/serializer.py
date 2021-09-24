@@ -4,4 +4,5 @@ from .models import Establishment
 class EstablishmentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Establishment
-        fields = ['name' ]
+        depth = 1
+        fields = ['name', 'description', 'address', 'phone']
