@@ -1,3 +1,5 @@
+import datetime
+from datetime import timezone
 
 from django.db import models
 
@@ -47,6 +49,8 @@ class Establishment(models.Model):
     phone = models.CharField(max_length=15, null=False, blank=False)
     address = models.ForeignKey(Address, null=False, blank=False, on_delete=models.deletion.CASCADE)
 
+    def __str__(self):
+        return '{name} - {id}'.format(name=self.name,id=self.id)
 
 class Schedules(models.Model):
     establishment = models.ForeignKey(Establishment, related_name='sch_establishment',on_delete=models.deletion.CASCADE)
@@ -67,3 +71,5 @@ class Comments(models.Model):
     linked = models.BooleanField()
     establishment = models.ForeignKey(Establishment, related_name='comment_establishment',on_delete=models.deletion.CASCADE)
     user = models.ForeignKey(UserProfile, related_name='comment_user', on_delete=models.deletion.CASCADE)
+    createAt = models.DateTimeField(default=datetime.datetime.now)
+    updateAt = models.DateTimeField(default=datetime.datetime.now)
