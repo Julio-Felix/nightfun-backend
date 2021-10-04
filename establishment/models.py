@@ -73,3 +73,6 @@ class Comments(models.Model):
     user = models.ForeignKey(UserProfile, related_name='comment_user', on_delete=models.deletion.CASCADE)
     createAt = models.DateTimeField(default=datetime.datetime.now)
     updateAt = models.DateTimeField(default=datetime.datetime.now)
+
+    class Meta:
+        ordering = ['-createAt']

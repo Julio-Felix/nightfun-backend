@@ -39,4 +39,4 @@ class EstablishmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Establishment
         depth = 1
-        fields = ['name', 'phone', 'description', 'address', 'sch_establishment', 'comment_establishment']
+        fields = ['id', 'name', 'phone', 'description', 'address', 'sch_establishment', 'comment_establishment']

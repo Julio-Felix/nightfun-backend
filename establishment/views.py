@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.decorators import action
 
-from .models import Establishment
+from .models import Establishment, Comments
 from rest_framework import viewsets, status
 from .serializer import EstablishmentSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -13,3 +14,11 @@ class EstablishmentViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = EstablishmentSerializer
 
+    @action(detail=False, methods=['POST'])
+    def add_comment(self, request, pk=None):
+        user = request.user
+        data = request.data
+        data['user'] = user
+        data['establishment'] = Establishment.objects.get(id=data['establishment'])
+        comment = Comments.objects.create(**data)
+        return Response({'status': 'Comment Added'})
