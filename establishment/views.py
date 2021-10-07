@@ -22,3 +22,17 @@ class EstablishmentViewSet(viewsets.ModelViewSet):
         data['establishment'] = Establishment.objects.get(id=data['establishment'])
         comment = Comments.objects.create(**data)
         return Response({'status': 'Comment Added'})
+
+    @action(detail=False, methods=['GET'])
+    def rank_establishment(self, request, pk=None):
+        establishments = Establishment.objects.all()
+        data = []
+        try:
+            for establishment in establishments:
+                likeds = establishment.comment_establishment.filter(linked=True).count()
+                data.append({'name': establishment.name, 'liked': likeds})
+            data.sort(key=lambda x: x['liked'],reverse=True)
+            return Response({'data': data}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'message': "Desculpa Encontramos Problemas no Processamneot"},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)

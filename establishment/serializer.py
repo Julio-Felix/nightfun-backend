@@ -25,7 +25,7 @@ class UserSerializerforEstablishment(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
         depth = 1
-        fields = ['full_name']
+        fields = ['full_name', 'picture']
 class CommentSerializer(serializers.ModelSerializer):
     user = UserSerializerforEstablishment(many=False, read_only=True)
     class Meta:
