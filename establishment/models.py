@@ -48,6 +48,7 @@ class Establishment(models.Model):
     email = models.CharField(max_length=50, null=False, blank=False)
     phone = models.CharField(max_length=15, null=False, blank=False)
     address = models.ForeignKey(Address, null=False, blank=False, on_delete=models.deletion.CASCADE)
+    cupom = models.BooleanField(default=True)
 
     def __str__(self):
         return '{name} - {id}'.format(name=self.name,id=self.id)
@@ -64,6 +65,8 @@ class Ticket(models.Model):
     code = models.CharField(max_length=9, null=False, blank=False)
     expiration_date = models.DateTimeField(null=False, blank=False)
     establishment = models.ForeignKey(Establishment, related_name='ticket_establishment',on_delete=models.deletion.CASCADE)
+    user = models.ForeignKey(UserProfile, related_name='ticket_user',
+                                      on_delete=models.deletion.CASCADE)
 
 
 class Comments(models.Model):
