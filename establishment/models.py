@@ -61,12 +61,6 @@ class Schedules(models.Model):
     sch_end_shift = models.TimeField(null=False, blank=False)
 
 
-class Ticket(models.Model):
-    code = models.CharField(max_length=9, null=False, blank=False)
-    expiration_date = models.DateTimeField(null=False, blank=False)
-    establishment = models.ForeignKey(Establishment, related_name='ticket_establishment',on_delete=models.deletion.CASCADE)
-    user = models.ForeignKey(UserProfile, related_name='ticket_user',
-                                      on_delete=models.deletion.CASCADE)
 
 
 class Comments(models.Model):

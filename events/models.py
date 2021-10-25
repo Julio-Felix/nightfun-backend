@@ -1,6 +1,7 @@
 from django.db import models
 
 from establishment.models import Establishment
+from user.models import UserProfile
 
 
 class Events(models.Model):
@@ -16,3 +17,11 @@ class Events(models.Model):
 class Banner(models.Model):
     image_url = models.URLField(null=False, blank=False)
     event = models.ForeignKey(Events, related_name='banners_events', null=False, blank=False, on_delete=models.deletion.CASCADE)
+
+
+class Ticket(models.Model):
+    code = models.CharField(max_length=9, null=False, blank=False)
+    expiration_date = models.DateTimeField(null=False, blank=False)
+    event = models.ForeignKey(Events, related_name='ticket_event',on_delete=models.deletion.CASCADE)
+    user = models.ForeignKey(UserProfile, related_name='ticket_user',
+                                      on_delete=models.deletion.CASCADE)

@@ -24,6 +24,8 @@ class UserViewSet(viewsets.ModelViewSet):
                                                                                    })
 
             if not created:
+                user.picture=data['picture']['data']['url']
+                user.save()
                 return Response({'msg': 'Usuário já Cadastrado, pode logar', 'token': user.auth_token.key}, status=status.HTTP_200_OK)
             else:
                 return Response({'msg': 'Usuário Cadastrado.', 'token': user.auth_token.key}, status=status.HTTP_200_OK)

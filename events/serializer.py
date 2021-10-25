@@ -5,7 +5,7 @@ from .models import Events, Banner
 class BannerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Banner
-        fields = ['id', 'image_url']
+        fields = ['id', 'image_url', 'event']
 
 class EventsSerializer(serializers.ModelSerializer):
     banners_events = BannerSerializer(many=True, read_only=True)
