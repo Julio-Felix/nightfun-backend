@@ -23,8 +23,7 @@ WEEK_DAYS = (
 )
 SHIFT_CLOSED = 0
 SHIFT_1 = 1
-SHIFT_2 = 2
-SHIFT_24_HOURS = 3
+SHIFT_24_HOURS = 2
 
 SHIFTS = ((SHIFT_CLOSED, 'Fechado'),
           (SHIFT_1, 'Período 1'),
@@ -38,7 +37,9 @@ class Address(models.Model):
     number = models.IntegerField()
     city = models.CharField(max_length=20, null=False, blank=False)
     state = models.CharField(max_length=2, null=False, blank=False)
-
+    class Meta:
+        verbose_name = "Endereços"
+        verbose_name_plural = "Endereços"
 
 class Establishment(models.Model):
     name = models.CharField(max_length=20, null=False, blank=False)
@@ -49,6 +50,11 @@ class Establishment(models.Model):
     phone = models.CharField(max_length=15, null=False, blank=False)
     address = models.ForeignKey(Address, null=False, blank=False, on_delete=models.deletion.CASCADE)
     cupom = models.BooleanField(default=True)
+    operators = models.ManyToManyField(UserProfile, blank=True,related_name='operators_establishment')
+
+    class Meta:
+        verbose_name = "Estabelecimento"
+        verbose_name_plural = "Estabelecimentos"
 
     def __str__(self):
         return '{name} - {id}'.format(name=self.name,id=self.id)
@@ -59,7 +65,9 @@ class Schedules(models.Model):
     sch_shift = models.IntegerField(choices=SHIFTS)
     sch_begin_shift = models.TimeField(null=False, blank=False)
     sch_end_shift = models.TimeField(null=False, blank=False)
-
+    class Meta:
+        verbose_name = "Horarios"
+        verbose_name_plural = "Horarios"
 
 
 
@@ -72,4 +80,6 @@ class Comments(models.Model):
     updateAt = models.DateTimeField(default=datetime.datetime.now)
 
     class Meta:
+        verbose_name = "Comentários"
+        verbose_name_plural = "Comentários"
         ordering = ['-createAt']
