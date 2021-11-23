@@ -5,6 +5,7 @@ from .models import Events, Banner
 class BannerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Banner
+        depth = 1
         fields = ['id', 'image_url', 'event']
 
 class EventsSerializer(serializers.ModelSerializer):
