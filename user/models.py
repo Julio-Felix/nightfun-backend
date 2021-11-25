@@ -11,7 +11,7 @@ class UserProfile(AbstractUser):
     is_facebook_user = models.BooleanField(default=False)
     facebook_id = models.CharField(max_length=100, null=True)
     full_name = models.CharField(max_length=512, default='')
-    picture = models.URLField(null=True,blank=True)
+    picture = models.URLField(max_length=1200,null=True,blank=True)
     USERNAME_FIELD = 'username'
 
 
