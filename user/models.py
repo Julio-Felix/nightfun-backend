@@ -10,7 +10,7 @@ class UserProfile(AbstractUser):
     phone = models.CharField(max_length=20, blank=True, null=True)
     is_facebook_user = models.BooleanField(default=False)
     facebook_id = models.CharField(max_length=100, null=True)
-    full_name = models.CharField(max_length=512, default='')
+    full_name = models.CharField(max_length=512, default='', null=True, blank=True)
     picture = models.URLField(max_length=1200,null=True,blank=True)
     USERNAME_FIELD = 'username'
 

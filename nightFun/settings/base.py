@@ -91,9 +91,9 @@ WSGI_APPLICATION = 'nightFun.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'nightFun',
-        'USER': 'deway',
-        'PASSWORD': '468146',
+        'NAME': 'coolfood',
+        'USER': 'postgres',
+        'PASSWORD': '202001',
         'HOST': 'localhost',
         'PORT': '5432',
     }
