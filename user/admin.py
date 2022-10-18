@@ -12,6 +12,7 @@ class UserAdmin(BaseUserAdmin):
             'first_name',
             'last_name',
             'email',
+            'picture'
         )}),
         ('Permissoes', {'fields': (
             'is_active',

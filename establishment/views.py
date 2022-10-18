@@ -17,6 +17,11 @@ class EstablishmentViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated]
     serializer_class = EstablishmentSerializer
 
+    def get_serializer_context(self):
+        context = super(EstablishmentViewSet, self).get_serializer_context()
+        context.update({"coords": self.request.query_params})
+        return context
+
     @action(detail=False, methods=['POST'])
     def add_comment(self, request, pk=None):
         user = request.user
