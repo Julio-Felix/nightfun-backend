@@ -12,6 +12,8 @@ class UserProfile(AbstractUser):
     facebook_id = models.CharField(max_length=100, null=True)
     full_name = models.CharField(max_length=512, default='', null=True, blank=True)
     picture = models.URLField(max_length=1200,null=True,blank=True)
+    establishments_fav = models.ManyToManyField('establishment.Establishment', related_name="gas_favs", help_text="Estabelecimentos Favoritos Favoritos", blank=True)
+
     USERNAME_FIELD = 'username'
 
 

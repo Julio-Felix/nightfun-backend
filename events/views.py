@@ -15,7 +15,7 @@ from .models import Events, Banner, Ticket
 from .serializer import EventsSerializer, BannerSerializer
 
 
-class EventsViewset(viewsets.ModelViewSet):
+class EventsViewset(viewsets.ReadOnlyModelViewSet):
     queryset = Events.objects.all()
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]

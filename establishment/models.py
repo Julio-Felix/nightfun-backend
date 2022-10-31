@@ -51,6 +51,8 @@ class Establishment(models.Model):
     address = models.ForeignKey(Address, null=False, blank=False, on_delete=models.deletion.CASCADE)
     cupom = models.BooleanField(default=True)
     operators = models.ManyToManyField(UserProfile, blank=True,related_name='operators_establishment')
+    logo = models.URLField(max_length=1200,null=True,blank=True)
+
 
     class Meta:
         verbose_name = "Estabelecimento"

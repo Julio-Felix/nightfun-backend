@@ -19,7 +19,7 @@ class EstablishmentViewSet(viewsets.ModelViewSet):
 
     def get_serializer_context(self):
         context = super(EstablishmentViewSet, self).get_serializer_context()
-        context.update({"coords": self.request.query_params})
+        context.update({"coords": self.request.query_params, 'request':self.request})
         return context
 
     @action(detail=False, methods=['POST'])

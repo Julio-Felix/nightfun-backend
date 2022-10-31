@@ -38,7 +38,8 @@ REST_FRAMEWORK = {
 LOCAL_APPS = [
     'user.apps.UserConfig',
     'events.apps.EventsConfig',
-    'establishment.apps.EstablishmentConfig'
+    'establishment.apps.EstablishmentConfig',
+    'notification.apps.NotificationConfig'
 ]
 INSTALLED_APPS = [
     'django.contrib.admin',

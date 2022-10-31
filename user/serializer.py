@@ -5,3 +5,8 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = UserProfile
         fields = ['full_name', 'is_facebook_user']
+
+class UserDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        exclude = ['facebook_id', 'password']

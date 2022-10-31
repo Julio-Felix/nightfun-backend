@@ -57,6 +57,11 @@ class EstablishmentSerializer(serializers.ModelSerializer):
     sch_establishment = SchedulesSerializer(many=True, read_only=True)
     comment_establishment = CommentSerializer(many=True, read_only=True)
     distance = serializers.SerializerMethodField()
+    is_fav = serializers.SerializerMethodField()
+
+    def get_is_fav(self, obj):
+        return self.context['request'].user.establishments_fav.filter(id=obj.id).exists()
+
 
     def get_distance(self, obj):
         distance = None
@@ -69,6 +74,7 @@ class EstablishmentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Establishment
         depth = 1
-        fields = ['id', 'name', 'phone', 'distance','lat', 'long', 'description', 'address', 'sch_establishment', 'comment_establishment']
+        fields = ['id', 'name', 'phone', 'distance','lat', 'long', 'description', 'address', 'is_fav',
+                  'logo', 'sch_establishment', 'comment_establishment']
 
 

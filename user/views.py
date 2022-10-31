@@ -1,7 +1,13 @@
 from django.shortcuts import render
+from rest_framework.authentication import TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+
+from establishment.models import Establishment
+from establishment.serializer import EstablishmentSerializer
+from notification.models import NotificationCenter
 from .models import UserProfile
 from rest_framework import serializers, viewsets, status
-from .serializer import UserSerializer
+from .serializer import UserSerializer, UserDataSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import permission_classes, authentication_classes, action
 from django.utils.crypto import get_random_string
@@ -14,6 +20,42 @@ from .utils import create_hash
 class UserViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = UserProfile.objects.filter(is_staff=False)
     serializer_class = UserSerializer
+    authentication_classes = [TokenAuthentication]
+
+    @action(detail=False, methods=['GET'], permission_classes=[IsAuthenticated])
+    def me_data(self, request):
+        user = request.user
+        serializer = UserDataSerializer(user)
+        return Response({'user':serializer.data}, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['GET'], permission_classes=[IsAuthenticated])
+    def list_favs(self, request):
+        user = request.user
+        serializer = EstablishmentSerializer(user.establishments_fav.all(), many=True, context={'request': request})
+        return Response({"data": serializer.data}, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['GET'], permission_classes=[IsAuthenticated])
+    def list_notifications(self, request):
+        user = request.user
+
+        queryset = NotificationCenter.objects.filter(establishment=user.establishments_fav.all())
+
+
+
+    @action(detail=False, methods=['GET'], permission_classes=[IsAuthenticated])
+    def favorite_establishment(self, request):
+        user = request.user
+        establishment = Establishment.objects.get(id=request.query_params['id_establishment'])
+        msg = ''
+        if user.establishments_fav.filter(id=establishment.id).exists():
+            msg = 'Favorito Removido com Sucesso'
+            user.establishments_fav.remove(establishment)
+        else:
+            msg = 'Favorito Adicionado com Sucesso'
+            user.establishments_fav.add(establishment)
+        user.save()
+        return Response({'msg': msg},
+                        status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['POST'])
     def login_facebook(self, request):
