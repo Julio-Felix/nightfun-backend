@@ -21,3 +21,14 @@ class UserProfile(AbstractUser):
 def user_save_schedule(instance, **kwargs):
     if kwargs['created']:
         Token.objects.create(user=instance)
+
+
+class PushToken(models.Model):
+    key = models.CharField('Token Push', max_length=60)
+    user = models.ForeignKey(UserProfile, null=False, blank=False, on_delete=models.CASCADE)
+    is_mobile = models.BooleanField('E do App?', default=False)
+    is_web = models.BooleanField('E do Admin Web?', default=False)
+    is_active = models.BooleanField('Ativo?', default=True)
+
+    createAt = models.DateTimeField(auto_now_add=True)
+    updateAt = models.DateTimeField(auto_now=True)

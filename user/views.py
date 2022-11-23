@@ -5,7 +5,7 @@ from rest_framework.permissions import IsAuthenticated
 from establishment.models import Establishment
 from establishment.serializer import EstablishmentSerializer
 from notification.models import NotificationCenter
-from .models import UserProfile
+from .models import UserProfile, PushToken
 from rest_framework import serializers, viewsets, status
 from .serializer import UserSerializer, UserDataSerializer
 from rest_framework.response import Response
@@ -39,6 +39,23 @@ class UserViewSet(viewsets.ReadOnlyModelViewSet):
         user = request.user
 
         queryset = NotificationCenter.objects.filter(establishment=user.establishments_fav.all())
+
+    @action(detail=False, methods=['POST'], permission_classes=[IsAuthenticated])
+    def register_push_token(self, request):
+        data = request.data
+        try:
+            pushToken = PushToken.objects.get(key=data['token'], user=request.user)
+            if pushToken:
+                return Response({'msg': 'Token ja Existente!'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'msg': 'Fluxo Inesperado!'}, status=status.HTTP_400_BAD_REQUEST)
+        except PushToken.DoesNotExist:
+            pushToken = PushToken.objects.create(key=data['token'], user=request.user)
+            return Response({'msg': 'Token Criado com Sucesso!'}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({'msg': 'Criacao de Token Falhou!'}, status=status.HTTP_400_BAD_REQUEST)
+
+
 
 
 
